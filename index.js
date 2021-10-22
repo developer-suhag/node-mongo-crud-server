@@ -47,7 +47,15 @@ async function run() {
     // console.log("insert sucess");
     // console.log(`A document was inserted with the _id: ${result.insertedId}`);
 
-    // post api
+    // GET API
+
+    app.get("/users", async (req, res) => {
+      const cursor = userCollection.find({});
+      const users = await cursor.toArray();
+      res.send(users);
+    });
+
+    // POST API
     app.post("/users", async (req, res) => {
       const newUser = req.body;
       const result = await userCollection.insertOne(newUser);
