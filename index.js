@@ -1,8 +1,12 @@
-const express = require("express");
 const { MongoClient } = require("mongodb");
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(cors());
+app.use(express.json());
 
 // database
 const uri =
@@ -45,11 +49,14 @@ async function run() {
 
     // post api
     app.post("/users", async (req, res) => {
-      console.log("hitting the post", req.body);
-      res.send("hit the post");
+      const newUser = req.body;
+      const result = await userCollection.insertOne(newUser);
+      console.log("got the user", req.body);
+      console.log("add the user", result);
+      res.json(result);
     });
   } finally {
-    await client.close();
+    // await client.close();
   }
 }
 
