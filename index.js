@@ -56,6 +56,15 @@ async function run() {
       res.send(users);
     });
 
+    // get single user api
+    app.get("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const user = await userCollection.findOne(query);
+      console.log("hitting the one");
+      res.send(user);
+    });
+
     // POST API
     app.post("/users", async (req, res) => {
       const newUser = req.body;
